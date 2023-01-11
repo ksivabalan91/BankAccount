@@ -56,7 +56,7 @@ public class BankAccount {
 
     //methods
     public void deposit(Float money){
-        if(money<0){
+        if(isClosed||money<0){
             throw new IllegalArgumentException();
         } else{
             balance += money;
@@ -76,7 +76,7 @@ public class BankAccount {
             balance -= money;
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
             LocalDateTime now = LocalDateTime.now();
-            String withdrawTranscation = "withdraw $"+money+" at"+ dtf.format(now);
+            String withdrawTranscation = "withdraw $"+money+" at "+ dtf.format(now);
             transactions.add(withdrawTranscation);            
         }
     }
