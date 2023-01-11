@@ -1,7 +1,8 @@
 package DBS;
 
 import java.security.SecureRandom;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -9,48 +10,48 @@ import java.util.Random;
 public class BankAccount {
     
     private String customerName;
-    private String accounNumber;
+    private String accountNumber;
     private List<String> transactions = new LinkedList<>();
     private Float balance;
     private boolean isClosed = true;
-    private Date openDate;
-    private Date closeDate;
+    private String openDate;
+    private String closeDate;
 
-    // constructor    
     public BankAccount(String customername){
         this(customername, 0.0F);
     }
 
     public BankAccount(String customername, Float balance){
+        //Get date and time
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        // Create a random number generator
+        Random rand = new SecureRandom();
+        // Generate a 7 digit random number rand(high-low) +low
+        int randomAccNo = rand.nextInt(9_999_999-1_000_000)+1_000_000;
+
         this.customerName = customername;
         this.balance = balance;
         this.isClosed = false;
-        this.openDate = new Date();
-        this.closeDate = new Date();
-
-        // Create a random number generator
-        Random rand = new SecureRandom();
-        // Generate a number between 1 and 10
-        int randomAccNo = rand.nextInt(999_999);
-
-        this.accounNumber = Integer.toString(randomAccNo);
+        this.openDate = dtf.format(now); 
+        this.accountNumber = Integer.toString(randomAccNo);
 
     }
 
     //getters
     public String getCustomerName() {return customerName;}
-    public String getAccounNumber() {return accounNumber;}
+    public String getAccountNumber() {return accountNumber;}
     public List<String> getTransactions() {return transactions;}
     public Float getBalance() {return balance;}
     public boolean isClosed() {return isClosed;}
-    public Date getOpenDate() {return openDate;}
-    public Date getCloseDate() {return closeDate;}
+    public String getOpenDate() {return openDate;}
+    public String getCloseDate() {return closeDate;}
     //setters
     public void setTransactions(List<String> transactions) {this.transactions = transactions;}
     public void setBalance(Float balance) {this.balance = balance;}
     public void setClosed(boolean isClosed) {this.isClosed = isClosed;}
-    public void setOpenDate(Date openDate) {this.openDate = openDate;}
-    public void setCloseDate(Date closeDate) {this.closeDate = closeDate;}
+    public void setOpenDate(String openDate) {this.openDate = openDate;}
+    public void setCloseDate(String closeDate) {this.closeDate = closeDate;}
 
 
     //methods
@@ -59,7 +60,9 @@ public class BankAccount {
             throw new IllegalArgumentException();
         } else{
             balance += money;
-            String depositTranscation = "deposit $"+money+" at "+ openDate.getTime() ;
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+            String depositTranscation = "deposit $"+money+" at "+ dtf.format(now);
             transactions.add(depositTranscation);
             
         }
@@ -71,7 +74,9 @@ public class BankAccount {
             
         else{
             balance -= money;
-            String withdrawTranscation = "withdraw $"+money+" at"+ openDate.getTime();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+            String withdrawTranscation = "withdraw $"+money+" at"+ dtf.format(now);
             transactions.add(withdrawTranscation);            
         }
     }
