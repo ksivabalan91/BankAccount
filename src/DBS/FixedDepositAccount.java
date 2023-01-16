@@ -2,7 +2,6 @@ package DBS;
 
 public class FixedDepositAccount extends BankAccount  {
 
-
     private Float interest = 3.0F;
     private int duration = 6;
     private int interestCounter = 0;
