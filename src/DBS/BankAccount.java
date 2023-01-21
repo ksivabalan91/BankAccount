@@ -57,7 +57,7 @@ public class BankAccount {
     //methods
     public void deposit(Float money){
         if(isClosed||money<0){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("your account is closed or you've entered an invalid amount");
         } else{
             balance += money;
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -70,7 +70,7 @@ public class BankAccount {
 
     public void withdraw(Float money){
         if ((isClosed||money>balance)||money<0)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("your account is closed or you've entered an invalid amount");
             
         else{
             balance -= money;
